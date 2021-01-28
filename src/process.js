@@ -8,7 +8,7 @@ const config = flow.get('dzeConfig') || {
 // should we print debug stuff? 
 const isDebug = flow.get('dzeDebug') || false;
 
-// helper debug function.
+// helper debug function, only if enabled.
 function d() {
     if (!isDebug) {
         return;
@@ -37,7 +37,15 @@ function e(str) {
     return true;
 }
 
+// debug message for traceability if needed
 d('[DZE] processing Zigbee message:', msg);
+
+// here we will store the messages to send, could be more than one.
+// also we need to send them all at once at the end of this function,
+// because we will need to also unlock the semaphore of the whole flow
+// on this function's second output.
+const messagesToSend = [];
+
 
 // here we go over the automations list and check if any matches.
 config.automations.forEach((automation) => {
@@ -88,7 +96,7 @@ config.automations.forEach((automation) => {
                     topic: config.base_topic + '/' + automation.to + '/set',
                     payload: to_send
                 }
-                node.send(message);
+                messagesToSend.push(message);
             }
             
             /*
@@ -140,4 +148,13 @@ config.automations.forEach((automation) => {
     }
 })
 
+// we send everything at once.
+// could be a return statement, but that is hard to mock/test.
+// (see the GitHub project for testing details.)
+node.send([
+    messagesToSend, // array, will be processed by the Zigbee sender node one by one
+    {} // empty object to the semaphore unlock node
+]);
+
+// we need to explicitly say when we're done after using `node.send()`.
 node.done();
