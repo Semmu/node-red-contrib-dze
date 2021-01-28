@@ -14,7 +14,7 @@ test({
     asserts: [
         'JSON.stringify(flow.data)  === "{}"',
         'JSON.stringify(node.warns) === "[]"',
-        'JSON.stringify(node.sends) === "[]"',
+        'JSON.stringify(node.sends) === "[[[],{}]]"',
         'JSON.stringify(config.automations) === "[]"',
         'JSON.stringify(config.timers) === "[]"',
         'node.isDone === true',
@@ -37,7 +37,7 @@ test({
     asserts: [
         "JSON.stringify(flow.data)  === '{\"dzeDebug\":true}'",
         "JSON.stringify(node.warns) === '[\"[DZE] processing Zigbee message:\",{\"topic\":\"zigbee2mqtt/SomeDevice\",\"payload\":{}}]'",
-        'JSON.stringify(node.sends) === "[]"',
+        'JSON.stringify(node.sends) === "[[[],{}]]"',
         'JSON.stringify(config.automations) === "[]"',
         'JSON.stringify(config.timers) === "[]"',
         'node.isDone === true',
@@ -177,7 +177,7 @@ test({
     run: 'src/process.js',
     asserts: [
         'JSON.stringify(config.timers) === "[]"',
-        "JSON.stringify(node.sends) === '[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"some\":\"thing\"}}]'",
+        "JSON.stringify(node.sends) === '[[[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"some\":\"thing\"}}],{}]]'",
         'node.isDone === true',
     ]
 });
@@ -212,7 +212,7 @@ test({
     run: 'src/process.js',
     asserts: [
         'JSON.stringify(config.timers) === "[]"',
-        "JSON.stringify(node.sends) === '[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"some\":\"thing\"}}]'",
+        "JSON.stringify(node.sends) === '[[[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"some\":\"thing\"}}],{}]]'",
         'node.isDone === true',
     ]
 });
@@ -247,7 +247,7 @@ test({
     run: 'src/process.js',
     asserts: [
         'JSON.stringify(config.timers) === "[]"',
-        "JSON.stringify(node.sends) === '[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"some\":\"thing\"}}]'",
+        "JSON.stringify(node.sends) === '[[[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"some\":\"thing\"}}],{}]]'",
         'node.isDone === true',
     ]
 });
@@ -282,7 +282,7 @@ test({
     run: 'src/process.js',
     asserts: [
         'JSON.stringify(config.timers) === "[]"',
-        "JSON.stringify(node.sends) === '[]'",
+        "JSON.stringify(node.sends) === '[[[],{}]]'",
         'node.isDone === true',
     ]
 });
@@ -317,7 +317,7 @@ test({
     run: 'src/process.js',
     asserts: [
         'JSON.stringify(config.timers) === "[]"',
-        "JSON.stringify(node.sends) === '[]'",
+        "JSON.stringify(node.sends) === '[[[],{}]]'",
         'node.isDone === true',
     ]
 });
@@ -351,7 +351,7 @@ test({
     run: 'src/process.js',
     asserts: [
         'JSON.stringify(config.timers) === "[]"',
-        "JSON.stringify(node.sends) === '[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"forwarded_computed\":110,\"forwarded_conditional\":\"one\"}}]'",
+        "JSON.stringify(node.sends) === '[[[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"forwarded_computed\":110,\"forwarded_conditional\":\"one\"}}],{}]]'",
         'node.isDone === true',
     ]
 });
