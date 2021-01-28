@@ -51,7 +51,7 @@ const test = (testCase) => {
     // so we can actually see it. ugly hack, but works.
     caseContext.console = {
         log: (...args) => {
-            console.log(...args);
+            console.log(`${colors.dim} < `, ...args, colors.reset);
         }
     }
 
@@ -72,7 +72,7 @@ const test = (testCase) => {
 
         testCase.log.forEach((toLog) => {
             // we log each item as its expression
-            console.log(`${colors.fg.blue}>> ${toLog}:${colors.reset}`);
+            console.log(`${colors.fg.blue} >  ${toLog}${colors.reset}`);
             // and we run a console.log inside the VM context,
             // so we get the actual output (redirected to us).
             const logScript = new Script(`console.log(${toLog})`);
