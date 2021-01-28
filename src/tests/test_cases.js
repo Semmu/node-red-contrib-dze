@@ -22,6 +22,37 @@ test({
 });
 
 test({
+    name: "context print example",
+    context: () => {
+
+        const flow = new Flow();
+        const node = new Node();
+        const msg = new EmptyMsg();
+
+        flow.set('dzeDebug', true);
+
+        return { flow, node, msg };
+    },
+    run: 'src/process.js',
+    log: [
+        'config',
+        'msg',
+        'flow',
+        'node',
+        '1 == 1',
+        '"any " + ("yrartibra".split("").reverse().join("-") + " C0D3")'
+    ],
+    asserts: [
+        "JSON.stringify(flow.data)  === '{\"dzeDebug\":true}'",
+        "JSON.stringify(node.warns) === '[\"[DZE] processing Zigbee message:\",{\"topic\":\"zigbee2mqtt/SomeDevice\",\"payload\":{}}]'",
+        'JSON.stringify(node.sends) === "[[[],{}]]"',
+        'JSON.stringify(config.automations) === "[]"',
+        'JSON.stringify(config.timers) === "[]"',
+        'node.isDone === true',
+    ]
+});
+
+test({
     name: "it prints debug messages if enabled",
     context: () => {
 
