@@ -386,3 +386,85 @@ test({
         'node.isDone === true',
     ]
 });
+
+test({
+    name: "it sends multiple messages on multiple matches",
+    context: () => {
+        const flow = new Flow();
+        const node = new Node();
+        const msg = new EmptyMsg();
+
+        flow.set('dzeDebug', true);
+        flow.set('dzeConfig', {
+            base_topic: 'zigbee2mqtt',
+            automations: [{
+                when: 'SomeDevice',
+                condition: 'action == "single"',
+                send: '{ first: "message" }',
+                to: 'Target'
+            }, {
+                when: 'SomeDevice',
+                condition: 'numeric == 50',
+                send: '{ second: "message" }',
+                to: 'Target'
+            }],
+            timers: [],
+        });
+
+        msg.payload = {
+            action: "single",
+            numeric: 50,
+        }
+
+        return { flow, node, msg };
+    },
+    run: 'src/process.js',
+    asserts: [
+        'JSON.stringify(config.timers) === "[]"',
+        "JSON.stringify(node.sends) === '[[[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"first\":\"message\"}},{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"second\":\"message\"}}],{}]]'",
+        'node.isDone === true',
+    ]
+});
+
+test({
+    name: "it correctly checks conditions, not just topic matches",
+    context: () => {
+        const flow = new Flow();
+        const node = new Node();
+        const msg = new EmptyMsg();
+
+        flow.set('dzeDebug', true);
+        flow.set('dzeConfig', {
+            base_topic: 'zigbee2mqtt',
+            automations: [{
+                when: 'SomeDevice',
+                condition: 'action == "single"',
+                send: '{ first: "message" }',
+                to: 'Target'
+            }, {
+                when: 'SomeDevice',
+                condition: 'numeric == "not50"',
+                send: '{ second: "message" }',
+                to: 'Target'
+            }],
+            timers: [],
+        });
+
+        msg.payload = {
+            action: "single",
+            numeric: 50,
+        }
+
+        return { flow, node, msg };
+    },
+    run: 'src/process.js',
+    asserts: [
+        'JSON.stringify(config.timers) === "[]"',
+        "JSON.stringify(node.sends) === '[[[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"first\":\"message\"}}],{}]]'",
+        'node.isDone === true',
+    ]
+});
+
+
+
+
