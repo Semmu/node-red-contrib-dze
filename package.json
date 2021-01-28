@@ -1,0 +1,27 @@
+{
+  "type": "module",
+  "name": "node-red-contrib-dze",
+  "description": "Declarative Zigbee Events for Node-RED",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+  	"start": "node index.js",
+    "test": "node src/tests/test_cases.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Semmu/node-red-contrib-dze.git"
+  },
+  "keywords": [
+    "node-red",
+    "declarative",
+    "zigbee",
+    "events"
+  ],
+  "author": "Laszlo Boros",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Semmu/node-red-contrib-dze/issues"
+  },
+  "homepage": "https://github.com/Semmu/node-red-contrib-dze#readme"
+}
