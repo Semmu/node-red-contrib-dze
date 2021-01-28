@@ -1,17 +1,48 @@
 import { readFileSync } from 'fs';
 import { Script, createContext } from 'vm';
 
-const header = (title) => {
-    console.log(`# ${title}`);
-}
+// from https://stackoverflow.com/a/40560590
+const colors = {
+    reset: "\x1b[0m",
+    bright: "\x1b[1m",
+    dim: "\x1b[2m",
+    underscore: "\x1b[4m",
+    blink: "\x1b[5m",
+    reverse: "\x1b[7m",
+    hidden: "\x1b[8m",
+    
+    fg: {
+        black: "\x1b[30m",
+        red: "\x1b[31m",
+        green: "\x1b[32m",
+        yellow: "\x1b[33m",
+        blue: "\x1b[34m",
+        magenta: "\x1b[35m",
+        cyan: "\x1b[36m",
+        white: "\x1b[37m",
+        crimson: "\x1b[38m" // Scarlet
+    },
+    bg: {
+        black: "\x1b[40m",
+        red: "\x1b[41m",
+        green: "\x1b[42m",
+        yellow: "\x1b[43m",
+        blue: "\x1b[44m",
+        magenta: "\x1b[45m",
+        cyan: "\x1b[46m",
+        white: "\x1b[47m",
+        crimson: "\x1b[48m"
+    }
+};
 
-const item = (name) => {
-    console.log(`- ${name}`);
+
+const header = (title) => {
+    console.log(`${colors.bright}[i] ${title}`, colors.reset);
 }
 
 const test = (testCase) => {
 
-    header(`TEST CASE: ${testCase.name}`);
+    header(`TEST CASE: ${colors.reset}${testCase.name}`);
 
     // get context object prepared by the test case.
     const caseContext = testCase.context();
@@ -41,7 +72,7 @@ const test = (testCase) => {
 
         testCase.log.forEach((toLog) => {
             // we log each item as its expression
-            item(`${toLog}`);
+            console.log(`${colors.fg.blue}>> ${toLog}:${colors.reset}`);
             // and we run a console.log inside the VM context,
             // so we get the actual output (redirected to us).
             const logScript = new Script(`console.log(${toLog})`);
@@ -61,11 +92,9 @@ const test = (testCase) => {
         const assertScript = new Script(assertCode);
         const res = assertScript.runInContext(vmContext);
         if (res) {
-            item(`${assert} -> OK!`);
+            console.log(`${colors.fg.green}[+]${colors.reset} ${assert}`)
         } else {
-            console.log("!!! ASSERTION FAILURE!!!");
-            console.log(`(${assert}) -> false`);
-            process.exit(1);
+            console.log(`${colors.fg.red}[-]${colors.reset} ${assert} ${colors.fg.red}<- FAILURE!${colors.reset}`)
         }
     });
 
