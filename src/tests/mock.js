@@ -59,4 +59,12 @@ function EmptyMsg() {
     }, {});
 }
 
-export { Flow, Node, EmptyMsg };
+// storing current date as a timestamp.
+const a_timestamp = Date.now();
+
+// static mock for Date, always returns the same value, good for testing.
+const AlwaysTheSameDate = {
+    now: () => (a_timestamp)
+};
+
+export { Flow, Node, EmptyMsg, AlwaysTheSameDate };
