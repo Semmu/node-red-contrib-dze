@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
   	"start": "node index.js",
-    "test": "node src/tests/process.js.tests.js"
+    "test": "node src/tests/process.js.tests.js",
+    "test-date": "node src/tests/.slow_function.js.tests.js"
   },
   "repository": {
     "type": "git",
