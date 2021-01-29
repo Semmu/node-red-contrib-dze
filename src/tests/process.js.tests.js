@@ -76,7 +76,7 @@ test({
 });
 
 test({
-    name: "it does not create new global variables from the message payload the message does not match",
+    name: "it does not create new global variables from the message payload when the message topic does not match",
     context: () => {
         const flow = new Flow();
         const node = new Node();
@@ -180,7 +180,7 @@ test({
 });
 
 test({
-    name: "it reacts to matching messages, if no condition is set",
+    name: "it reacts to matching messages if no condition is set",
     context: () => {
         const flow = new Flow();
         const node = new Node();
@@ -214,7 +214,7 @@ test({
 });
 
 test({
-    name: "it does not react to matching messages, if the condition evaluates to false",
+    name: "it does not react to matching messages if the condition evaluates to false",
     context: () => {
         const flow = new Flow();
         const node = new Node();
@@ -249,7 +249,7 @@ test({
 });
 
 test({
-    name: "it reacts to matching messages with fulfilled condition #1",
+    name: "it reacts to matching messages with fulfilled conditions #1",
     context: () => {
         const flow = new Flow();
         const node = new Node();
@@ -284,7 +284,7 @@ test({
 });
 
 test({
-    name: "it reacts to matching messages with fulfilled condition #2",
+    name: "it reacts to matching messages with fulfilled conditions #2",
     context: () => {
         const flow = new Flow();
         const node = new Node();
@@ -319,7 +319,7 @@ test({
 });
 
 test({
-    name: "it does not react to matching messages with failing condition #1",
+    name: "it does not react to matching messages with failing conditions #1",
     context: () => {
         const flow = new Flow();
         const node = new Node();
@@ -354,7 +354,7 @@ test({
 });
 
 test({
-    name: "it does not react to matching messages with failing condition #2",
+    name: "it does not react to matching messages with failing conditions #2",
     context: () => {
         const flow = new Flow();
         const node = new Node();
@@ -389,7 +389,7 @@ test({
 });
 
 test({
-    name: "it can access trigger message attributes and compute arbitrary payload to send",
+    name: "it can access trigger message attributes and use them to compute arbitrary payload to send",
     context: () => {
         const flow = new Flow();
         const node = new Node();
@@ -462,7 +462,7 @@ test({
 });
 
 test({
-    name: "it correctly checks conditions, not just topic matches",
+    name: "it correctly checks conditions, not just topics",
     context: () => {
         const flow = new Flow();
         const node = new Node();
