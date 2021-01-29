@@ -155,7 +155,8 @@ config.automations.forEach((automation, i) => {
     }
 });
 
-d('[DZE] done with checking automations, sending result messages!');
+d('[DZE] done with checking automations! sending result messages:');
+d(messagesToSend)
 
 // we send everything at once.
 // could be a return statement, but that is hard to mock/test.

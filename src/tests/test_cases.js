@@ -44,7 +44,7 @@ test({
     ],
     asserts: [
         "JSON.stringify(flow.data)  === '{\"dzeDebug\":true}'",
-        "JSON.stringify(node.warns) === '[\"[DZE] processing Zigbee message:\",{\"topic\":\"zigbee2mqtt/SomeDevice\",\"payload\":{}},\"[DZE] done with checking automations, sending result messages!\"]'",
+        "JSON.stringify(node.warns) === '[\"[DZE] processing Zigbee message:\",{\"topic\":\"zigbee2mqtt/SomeDevice\",\"payload\":{}},\"[DZE] done with checking automations! sending result messages:\",[]]'",
         'JSON.stringify(node.sends) === "[[[],{}]]"',
         'JSON.stringify(config.automations) === "[]"',
         'JSON.stringify(config.timers) === "[]"',
@@ -67,7 +67,7 @@ test({
     run: 'src/process.js',
     asserts: [
         "JSON.stringify(flow.data)  === '{\"dzeDebug\":true}'",
-        "JSON.stringify(node.warns) === '[\"[DZE] processing Zigbee message:\",{\"topic\":\"zigbee2mqtt/SomeDevice\",\"payload\":{}},\"[DZE] done with checking automations, sending result messages!\"]'",
+        "JSON.stringify(node.warns) === '[\"[DZE] processing Zigbee message:\",{\"topic\":\"zigbee2mqtt/SomeDevice\",\"payload\":{}},\"[DZE] done with checking automations! sending result messages:\",[]]'",
         'JSON.stringify(node.sends) === "[[[],{}]]"',
         'JSON.stringify(config.automations) === "[]"',
         'JSON.stringify(config.timers) === "[]"',
