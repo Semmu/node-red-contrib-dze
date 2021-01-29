@@ -1,5 +1,5 @@
-import { Flow, Node, EmptyMsg, AlwaysTheSameDate } from './mock.js';
-import { test } from './testing_lib.js';
+import { Flow, Node, EmptyMsg, AlwaysTheSameDate } from './framework/node-red_api_mocks.js';
+import { test } from './framework/test_runner.js';
 
 test({
     name: "it does nothing by default",
@@ -503,7 +503,7 @@ test({
 test({
     name: "the date testing file takes a little time to run",
     context: () => ({}),
-    run: 'src/tests/testing_date.js',
+    run: 'src/.slow_function.js',
     asserts: [
         'calledCount > 0',
         'timeSpent > 0'
@@ -515,7 +515,7 @@ test({
     context: () => ({
         Date: AlwaysTheSameDate
     }),
-    run: 'src/tests/testing_date.js',
+    run: 'src/.slow_function.js',
     asserts: [
         'calledCount > 0',
         'timeSpent == 0'
