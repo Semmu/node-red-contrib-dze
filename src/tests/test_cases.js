@@ -466,5 +466,5 @@ test({
 });
 
 
-
-
+// print verdict, special case of this function
+test("verdict");

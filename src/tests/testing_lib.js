@@ -40,7 +40,23 @@ const header = (title) => {
     console.log(`${colors.bright}[i] ${title}`, colors.reset);
 }
 
+// simple boolean to hold if any assert failed globally.
+let anyError = false;
+
 const test = (testCase) => {
+
+    // special case of this function to print the verdict at the end,
+    // and exit with error code if there has been assertion failures.
+    if (testCase === "verdict") {
+        if (anyError) {
+            console.log(`${colors.bright}${colors.fg.red}SOME TESTS FAILED!${colors.reset}`);
+            console.log('Check log for exact details!');
+            process.exit(1);
+        } else {
+            console.log(`${colors.bright}${colors.fg.green}All tests passed!${colors.reset}`);
+            return;
+        }
+    }
 
     header(`TEST CASE: ${colors.reset}${testCase.name}`);
 
@@ -92,9 +108,10 @@ const test = (testCase) => {
         const assertScript = new Script(assertCode);
         const res = assertScript.runInContext(vmContext);
         if (res) {
-            console.log(`${colors.fg.green}[+]${colors.reset} ${assert}`)
+            console.log(`${colors.bright}${colors.fg.green}[+]${colors.reset} ${assert}`);
         } else {
-            console.log(`${colors.fg.red}[-]${colors.reset} ${assert} ${colors.fg.red}<- FAILURE!${colors.reset}`)
+            console.log(`${colors.bright}${colors.fg.red}[-]${colors.reset} ${assert} ${colors.bright}${colors.fg.red}<- FAILURE!${colors.reset}`);
+            anyError = true;
         }
     });
 
