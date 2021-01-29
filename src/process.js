@@ -27,10 +27,10 @@ function isStr(something) {
 // eval() helper - i know, eval is bad, but i have no choice unfortunately.
 function e(str) {
     try {
-        d('[DZE] evaling:', str);
+        d(`[DZE] evaling: ${str}`);
         eval(str);
     } catch (e) {
-        d('[DZE] could not eval expression!', str);
+        d(`[DZE] could not eval expression! ${str}`);
         return false;
     }
     
@@ -48,17 +48,22 @@ const messagesToSend = [];
 
 
 // here we go over the automations list and check if any matches.
-config.automations.forEach((automation) => {
+config.automations.forEach((automation, i) => {
+    d(`[DZE] checking if automation #${i} matches...`, automation);
 
     // if the topic matches, we should process this message.
     if (msg.topic == config.base_topic + '/' + automation.when) {
+        d('[DZE] trigger message topic matches, continuing...');
 
         // we dont yet know if the conditions are met.
         pass = null;
+
         if (typeof automation.condition === "undefined") {
+            d('[DZE] no condition for this automation, firing it!');
             // if there is no condition at all, we allow it.
             pass = true;
         } else {
+            d('[DZE] evaling automation condition...');
 
             // this is an ugly hack: we need to create variables in the current
             // JS VM context and assign them the values from the Zigbee message
@@ -79,7 +84,7 @@ config.automations.forEach((automation) => {
             // or if there was any error, we fallback to false.
             e(str) || (pass = false);
         }
-        d("pass=", pass);
+        d(`[DZE] condition results: pass = ${pass}`);
 
         // if the conditions were met, we go on and react to the message.
         if (pass) {
@@ -145,8 +150,12 @@ config.automations.forEach((automation) => {
             }
             */
         }
+    } else {
+        d('[DZE] topic did not match for this automation, skipping!');
     }
-})
+});
+
+d('[DZE] done with checking automations, sending result messages!');
 
 // we send everything at once.
 // could be a return statement, but that is hard to mock/test.
