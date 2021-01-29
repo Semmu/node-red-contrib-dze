@@ -180,7 +180,7 @@ test({
 });
 
 test({
-    name: "it reacts to matching messages",
+    name: "it reacts to matching messages, if no condition is set",
     context: () => {
         const flow = new Flow();
         const node = new Node();
@@ -209,6 +209,41 @@ test({
     asserts: [
         'JSON.stringify(config.timers) === "[]"',
         "JSON.stringify(node.sends) === '[[[{\"topic\":\"zigbee2mqtt/Target/set\",\"payload\":{\"some\":\"thing\"}}],{}]]'",
+        'node.isDone === true',
+    ]
+});
+
+test({
+    name: "it does not react to matching messages, if the condition evaluates to false",
+    context: () => {
+        const flow = new Flow();
+        const node = new Node();
+        const msg = new EmptyMsg();
+
+        flow.set('dzeDebug', true);
+        flow.set('dzeConfig', {
+            base_topic: 'zigbee2mqtt',
+            automations: [{
+                when: 'SomeDevice',
+                condition: false,
+                send: {
+                    some: 'thing'
+                },
+                to: 'Target'
+            }],
+            timers: [],
+        });
+
+        msg.payload = {
+            toBeGlobal: "i am injected"
+        }
+
+        return { flow, node, msg };
+    },
+    run: 'src/process.js',
+    asserts: [
+        'JSON.stringify(config.timers) === "[]"',
+        "JSON.stringify(node.sends) === '[[[],{}]]'",
         'node.isDone === true',
     ]
 });
