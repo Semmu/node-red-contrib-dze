@@ -4,14 +4,12 @@ import { readFileSync } from 'fs';
 // TODO:
 //  * define custom types for reusability
 //      e.g. if the same structure appears at multiple places, keep code DRY
-//  * define custom validation rules for functional validation
-//      e.g. if object has key A, it has to have key B
-//           or number must be gt. limit, or string must be shorter than X chars
 
 const is = {
     __validationUnit: function() {
         this.__type = "";
         this.__required = true;
+        this.__functionalValidators = [];
         this.__validateType = (value) => {
             throw '__validationUnit.validate() must not be used!';
         }
@@ -20,7 +18,9 @@ const is = {
             if (typeof value === "undefined") {
                 return !this.__required;
             } else {
-                return this.__validateType(value);
+                return this.__validateType(value) && 
+                       this.__functionalValidators.filter(functionalValidator => !functionalValidator(value)).length == 0;
+                       // ^ there is no functional validator lambda which does not validate the value
             }
         };
 
@@ -28,6 +28,11 @@ const is = {
             this.__required = false;
             return this;
         };
+
+        this.Where = function(functionalValidator) {
+            this.__functionalValidators.push(functionalValidator);
+            return this;
+        }
 
         this.String = function() {
             this.__type = "string";
