@@ -1,0 +1,35 @@
+base_topic: zigbee2mqtt
+automations:
+- when: SomeDevice
+  send:
+    something: valuable
+  to: ThatDevice
+- when: OtherDevice
+  condition: '1 > 0'
+  send: '{ "json": "as string" }'
+  to: ThatOtherDevice
+- when: YetAnotherDevice
+  send: { embedded: json }
+  to: SomeDevice
+  start: a-timer
+- when: HowManyDevicesDoYouHave
+  start:
+  - other-timer
+  - and-also-this-timer
+- when: ThisIsRidiculous
+  stop:
+  - a-timer
+  - other-timer
+  - and-also-this-timer
+timers:
+- name: a-timer
+  duration: 69 # hehe
+  send:
+    someKey: someValue
+  to: ThatOtherDevice
+- name: other-timer
+  duration: 5m 30s
+  start: and-also-this-timer
+- name: and-also-this-timer
+  send: { th: is, immedia: tely }
+  to: YetAnotherDevice
