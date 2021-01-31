@@ -89,7 +89,7 @@ const is = {
 };
 
 is.optional = () => (new is.__validationUnit().optional());
-is.required = () => (new is.__validationUnit().required());
+is.required = () => (new is.__validationUnit());
 
 is.String = () => (new is.__validationUnit().String());
 is.Boolean = () => (new is.__validationUnit().Boolean());
@@ -101,12 +101,12 @@ is.ArrayOf = (schema) => (new is.__validationUnit().ArrayOf(schema));
 is.OneOf = (schema) => (new is.__validationUnit().OneOf(schema));
 
 console.log([
-    is.String().validate() === true,
+    is.String().validate() === false,
     is.String().validate(3) === false,
 
-    is.required().String().validate("hello") === true,
-    is.Number().required().validate(3) === true,
-    is.Object().required().validate({}) === true,
+    is.String().validate("hello") === true,
+    is.Number().validate(3) === true,
+    is.Object().validate({}) === true,
 
     is.ArrayOf(is.Number()).validate([1, 2, 3]) === true,
     is.ArrayOf(is.String()).validate("not an array") === false,
@@ -121,27 +121,28 @@ console.log([
     is.ArrayOf(is.OneOf([is.String(), is.Number()])).validate([1, 2, "string", 4]) === true,
     is.ArrayOf(is.OneOf([is.String(), is.Number()])).validate([1, {}, "string", 4]) === false,
 
-    is.ArrayOf(is.String()).validate(["array", "of", undefined, "oops"]) === true,
-    is.ArrayOf(is.required().String()).validate(["array", "of", undefined, "oops"]) === false,
+    is.ArrayOf(is.String()).validate(["array", "of", undefined, "oops"]) === false,
     is.ArrayOf(is.optional().String()).validate(["array", "of", undefined, "oops"]) === true,
     is.ArrayOf(is.String()).validate(["array", "of", null, "oops"]) === false,
 
-    is.Object({}).validate() === true,
-    is.Object({a:1}).validate() === true,
-
+    is.Object().validate() === false,
+    is.Object().validate({}) === true,
+    is.optional().Object().validate() === true,
+    is.optional().Object().validate({}) === true,
+    is.Object().validate({a:1}) === true,
 
     is.Object({
-        str: is.required().String(),
+        str: is.String(),
         num: is.optional().Number(),
-        oneof: is.required().OneOf([
+        oneof: is.OneOf([
             is.String(),
             is.ArrayOf()
         ]),
-        arrayOfString: is.required().ArrayOf(is.String()),
-        arrayOfAnyObj: is.required().ArrayOf(is.Object()),
-        arrayOfDefinedObj: is.required().ArrayOf(is.Object({
-            name: is.required().String(),
-            age: is.required().Number(),
+        arrayOfString: is.ArrayOf(is.String()),
+        arrayOfAnyObj: is.ArrayOf(is.Object()),
+        arrayOfDefinedObj: is.ArrayOf(is.Object({
+            name: is.String(),
+            age: is.Number(),
             hobbies: is.optional().ArrayOf(is.String())
         }))
     }).validate({
@@ -165,8 +166,8 @@ console.log([
     }) === true,
 
     is.Object({
-        str: is.String(),
-        reqStr: is.required().String(),
+        str: is.optional().String(),
+        reqStr: is.String(),
 
         num: is.Number(),
         bln: is.Boolean(),
@@ -193,9 +194,9 @@ console.log([
 ]);
 
 console.log(is.Object({
-    base_topic: is.required().String(),
-    automations: is.required().ArrayOf(is.Object({
-        when: is.required().String(),
+    base_topic: is.String(),
+    automations: is.ArrayOf(is.Object({
+        when: is.String(),
         condition: is.optional().String(),
         send: is.optional().OneOf([
             is.String(),
@@ -212,7 +213,7 @@ console.log(is.Object({
         ])
     })),
     timers: is.optional().ArrayOf(is.Object({
-        name: is.required().String(),
+        name: is.String(),
         duration: is.optional().OneOf([
             is.String(),
             is.Number()
