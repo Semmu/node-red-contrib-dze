@@ -1,3 +1,6 @@
+import { load } from 'js-yaml';
+import { readFileSync } from 'fs';
+
 const is = {
     __validationUnit: function() {
         this.__type = "";
@@ -188,3 +191,44 @@ console.log([
         }
     }) === true
 ]);
+
+console.log(is.Object({
+    base_topic: is.required().String(),
+    automations: is.required().ArrayOf(is.Object({
+        when: is.required().String(),
+        condition: is.optional().String(),
+        send: is.optional().OneOf([
+            is.String(),
+            is.Object()
+        ]),
+        to: is.optional().String(),
+        start: is.optional().OneOf([
+            is.String(),
+            is.ArrayOf(is.String())
+        ]),
+        cancel: is.optional().OneOf([
+            is.String(),
+            is.ArrayOf(is.String())
+        ])
+    })),
+    timers: is.optional().ArrayOf(is.Object({
+        name: is.required().String(),
+        duration: is.optional().OneOf([
+            is.String(),
+            is.Number()
+        ]),
+        send: is.optional().OneOf([
+            is.String(),
+            is.Object()
+        ]),
+        to: is.optional().String(),
+        start: is.optional().OneOf([
+            is.String(),
+            is.ArrayOf(is.String())
+        ]),
+        cancel: is.optional().OneOf([
+            is.String(),
+            is.ArrayOf(is.String())
+        ])
+    }))
+}).validate(load(readFileSync('./sample.events.yaml'))));
