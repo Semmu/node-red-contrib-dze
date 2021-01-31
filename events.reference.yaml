@@ -1,0 +1,54 @@
+# base topic: mqtt base topic, REQUIRED
+base_topic: zigbee2mqtt # string
+
+# automations: the array containing the various automation definitions (response messages or timer triggers), REQUIRED (why would you use this otherwise)
+automations:
+
+  # when: filter on where the message came from, REQUIRED
+- when: SomeDevice      # words, quoting doesn't matter
+
+  # condition: arbitrary conditions the message has to meet, OPTIONAL
+  condition: 'action == "single"'     # string, eval'd, must evaluate to boolean
+
+  # send: object to send in response, OPTIONAL (since you may only trigger timers)
+  send:
+    key: value                        # YAML definition, converted to object
+    other: otherValue
+  send: { key: value, other: otherValue }                       # in-place JSON
+  send: '{ key: trigger.key * 2, other: any_js_expression() }'  # JSON as string, eval'd, must eval to an object
+
+  # to: name of target device, OPTIONAL (since you may only trigger timers)
+  to: OtherDevice   # string
+
+  # start: timmers to start, OPTIONAL (since you may only send replies)
+  start: a-timer  # string
+  start:          # array of strings
+    - one-timer
+    - second-timer
+
+  # cancel: timers to cancel, OPTIONAL (since you may only send replies)
+  cancel: b-timer # string
+  cancel:         # array of strings
+    - third-timer
+
+# timers: array containing of timer definitions, OPTIONAL
+timers:
+
+  # name: unique name of the timer, REQUIRED
+- name: a-timer     # string
+
+  # duration: ~ of the timer, counts down, fires message when reaching 0, OPTIONAL (means 0 duration)
+  duration: 3s      # string
+  duration: 3       # number, in seconds
+
+  # send:   same as for the automations
+  send:     -||-
+
+  # to:     same as for the automations
+  to:       -||-
+
+  # start:  same as for the automations
+  start:    -||-
+
+  # cancel: same as for the automations
+  cancel:   -||-
