@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 const is = {
     __validationUnit: function() {
         this.__type = "";
-        this.__required = false;
+        this.__required = true;
         this.__validateType = (value) => {
             throw '__validationUnit.validate() must not be used!';
         }
@@ -15,11 +15,6 @@ const is = {
             } else {
                 return this.__validateType(value);
             }
-        };
-
-        this.required = function() {
-            this.__required = true;
-            return this;
         };
 
         this.optional = function() {
