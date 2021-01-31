@@ -1,6 +1,13 @@
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 
+// TODO:
+//  * define custom types for reusability
+//      e.g. if the same structure appears at multiple places, keep code DRY
+//  * define custom validation rules for functional validation
+//      e.g. if object has key A, it has to have key B
+//           or number must be gt. limit, or string must be shorter than X chars
+
 const is = {
     __validationUnit: function() {
         this.__type = "";
