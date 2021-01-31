@@ -117,6 +117,16 @@ console.log([
     is.optional().String().validate() === true,
     is.String().validate(3) === false,
 
+    is.String().Where(str => str.length > 5).validate("more than 5 chars") === true,
+    is.String().Where(str => str.length > 5).validate("less") === false,
+
+    is.Number().Where(num => num > 50).validate(60) === true,
+    is.Number().Where(num => num > 50).validate(40) === false,
+
+    is.Object().Where(obj => 'key1' in obj ? 'key2' in obj : true).validate({}) === true,
+    is.Object().Where(obj => 'key1' in obj ? 'key2' in obj : true).validate({key1: 'value1'}) === false,
+    is.Object().Where(obj => 'key1' in obj ? 'key2' in obj : true).validate({key1: 'value1', key2: 'value2'}) === true,
+
     is.String().validate("hello") === true,
     is.Number().validate(3) === true,
     is.Object().validate({}) === true,
