@@ -126,6 +126,11 @@ console.log([
     is.ArrayOf(is.OneOf([is.String(), is.Number()])).validate([1, 2, "string", 4]) === true,
     is.ArrayOf(is.OneOf([is.String(), is.Number()])).validate([1, {}, "string", 4]) === false,
 
+    is.ArrayOf(is.String()).validate(["array", "of", undefined, "oops"]) === true,
+    is.ArrayOf(is.required().String()).validate(["array", "of", undefined, "oops"]) === false,
+    is.ArrayOf(is.optional().String()).validate(["array", "of", undefined, "oops"]) === true,
+    is.ArrayOf(is.String()).validate(["array", "of", null, "oops"]) === false,
+
     is.Object({}).validate() === true,
     is.Object({a:1}).validate() === true,
 
