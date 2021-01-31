@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-  	"start": "node index.js",
+    "start": "node index.js",
     "test": "node src/tests/process.js.tests.js",
     "test-date": "node src/tests/.slow_function.js.tests.js"
   },
@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/Semmu/node-red-contrib-dze/issues"
   },
-  "homepage": "https://github.com/Semmu/node-red-contrib-dze#readme"
+  "homepage": "https://github.com/Semmu/node-red-contrib-dze#readme",
+  "dependencies": {
+    "js-yaml": "^4.0.0"
+  }
 }
