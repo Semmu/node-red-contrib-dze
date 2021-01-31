@@ -101,16 +101,17 @@ const is = {
 };
 
 is.optional = () => (new is.__validationUnit().optional());
-is.required = () => (new is.__validationUnit());
+
+is.Where = (functionalValidator) => (new is.__validationUnit().Where(functionalValidator));
 
 is.String = () => (new is.__validationUnit().String());
 is.Boolean = () => (new is.__validationUnit().Boolean());
 is.Number = () => (new is.__validationUnit().Number());
 
-is.Object = (schema) => (new is.__validationUnit().Object(schema));
+is.Object = (schemaObj) => (new is.__validationUnit().Object(schemaObj));
 
 is.ArrayOf = (schema) => (new is.__validationUnit().ArrayOf(schema));
-is.OneOf = (schema) => (new is.__validationUnit().OneOf(schema));
+is.OneOf = (schemaArray) => (new is.__validationUnit().OneOf(schemaArray));
 
 console.log([
     is.String().validate() === false,
