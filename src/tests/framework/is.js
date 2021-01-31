@@ -114,6 +114,7 @@ is.OneOf = (schema) => (new is.__validationUnit().OneOf(schema));
 
 console.log([
     is.String().validate() === false,
+    is.optional().String().validate() === true,
     is.String().validate(3) === false,
 
     is.String().validate("hello") === true,
